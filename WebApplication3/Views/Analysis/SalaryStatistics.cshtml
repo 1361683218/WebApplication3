@@ -1,0 +1,110 @@
+﻿@model List<AnalysisModel.EmployeeSalary>
+@{
+    ViewData["Title"] = "部门薪资统计";
+}
+
+<link rel="stylesheet" href="~/css/Depts.css" />
+
+<div class="row">
+    <div class="col-md-6">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>部门</th>
+                    <th>平均薪资</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var salary in Model)
+                {
+                    <tr>
+                        <td>@salary.Department</td>
+                        <td>@salary.AverageSalary</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <button id="toggleChartButton" class="btn btn-primary">显示图表</button>
+        <div id="salaryChart" style="height: 400px; display: none;"></div>
+    </div>
+</div>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var departments = @Html.Raw(Json.Serialize(Model.Select(s => s.Department)));
+        var averageSalaries = @Html.Raw(Json.Serialize(Model.Select(s => s.AverageSalary)));
+
+        var chart = Highcharts.chart('salaryChart', {
+            chart: {
+                type: 'column',
+                options3d: {
+                    enabled: true,
+                    alpha: 15,
+                    beta: 15,
+                    depth: 50,
+                    viewDistance: 25,
+                    frame: {
+                        bottom: { size: 1, color: 'rgba(0,0,0,0.02)' }
+                    }
+                }
+            },
+            title: {
+                text: '部门薪资统计'
+            },
+            xAxis: {
+                categories: departments,
+                title: {
+                    text: '部门'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '平均薪资'
+                }
+            },
+            plotOptions: {
+                column: {
+                    depth: 25
+                }
+            },
+            series: [{
+                name: '平均薪资',
+                data: averageSalaries
+            }],
+            lang: {
+                loading: '加载中...',
+                months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                weekdays: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+                shortMonths: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                exportButtonTitle: '导出',
+                printButtonTitle: '打印',
+                rangeSelectorFrom: '从',
+                rangeSelectorTo: '到',
+                rangeSelectorZoom: '缩放',
+                downloadPNG: '下载PNG',
+                downloadJPEG: '下载JPEG',
+                downloadPDF: '下载PDF',
+                downloadSVG: '下载SVG',
+                printChart: '打印图表'
+            }
+        });
+
+        document.getElementById('toggleChartButton').addEventListener('click', function () {
+            var chartContainer = document.getElementById('salaryChart');
+            if (chartContainer.style.display === 'none') {
+                chartContainer.style.display = 'block';
+                this.textContent = '隐藏图表';
+            } else {
+                chartContainer.style.display = 'none';
+                this.textContent = '显示图表';
+            }
+        });
+    });
+</script>

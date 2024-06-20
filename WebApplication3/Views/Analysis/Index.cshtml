@@ -1,0 +1,47 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "数据分析";
+}
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Depts.css"> <!-- 引用 Depts.css 样式文件 -->
+    
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-4">数据分析</h2>
+        <ul class="list-unstyled">
+            <li><a asp-action="EntryStatistics" class="btn btn-primary">部门员工入职统计</a></li>
+            <li><a asp-action="ExitStatistics" class="btn btn-primary">部门员工离职统计</a></li>
+            <li>
+                <form asp-action="SalaryStatistics" method="get" class="search-form">
+                    <div class="form-group">
+                        <label for="department">选择部门:</label>
+                        <select name="department" id="department" class="form-control">
+                            @if (ViewBag.Departments != null)
+                            {
+                                foreach (var department in ViewBag.Departments)
+                                {
+                                    <option value="@department">@department</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">统计</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

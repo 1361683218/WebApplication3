@@ -4,7 +4,7 @@
     Layout = "_Layout";
 }
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,27 +12,27 @@
     <link rel="stylesheet" href="~/css/Depts.css">
 </head>
 <body>
-<h1>Import</h1>
+    <h1>导入</h1>
 
-<h4>Upload Excel File</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Import" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label for="file" class="control-label">Excel File</label>
-                <input type="file" id="file" name="file" class="form-control" accept=".xlsx,.xls" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Upload" class="btn btn-primary" />
-            </div>
-        </form>
+    <h4>上传 Excel 文件</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Import" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label for="file" class="control-label">Excel 文件</label>
+                    <input type="file" id="file" name="file" class="form-control" accept=".xlsx,.xls" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="上传" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">返回列表</a>
-</div
+    <div class="back-to-list">
+        <a asp-action="Index">返回列表</a>
+    </div>
 </body>
 </html>

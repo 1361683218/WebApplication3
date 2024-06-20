@@ -1,0 +1,71 @@
+﻿@model List<AnalysisModel.EmployeeExit>
+@{
+    ViewData["Title"] = "部门员工离职统计";
+}
+
+<link rel="stylesheet" href="~/css/Depts.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+
+<h2>部门员工离职统计</h2>
+
+<form asp-action="ExitStatistics" method="get" class="search-form">
+    <label for="department">选择部门:</label>
+    <select name="department" id="department" class="form-control">
+        <option value="">所有部门</option>
+        @if (ViewBag.Departments != null)
+        {
+            foreach (var department in ViewBag.Departments)
+            {
+                <option value="@department">@department</option>
+            }
+        }
+    </select>
+    <button type="submit" class="btn btn-primary">统计</button>
+</form>
+
+<h3>离职人数总和: @ViewBag.TotalExitCount</h3>
+
+<div class="data-summary">
+    <h4>数据摘要</h4>
+    <ul>
+        <li>总离职人数: @ViewBag.TotalExitCount</li>
+        <li>平均离职人数: @ViewBag.AverageExitCount</li>
+        <li>最大离职人数: @ViewBag.MaxExitCount</li>
+        <li>最小离职人数: @ViewBag.MinExitCount</li>
+    </ul>
+</div>
+
+<table id="exitTable" class="table">
+    <thead>
+        <tr>
+            <th>部门</th>
+            <th>月份</th>
+            <th>年份</th>
+            <th>离职人数</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var exit in Model)
+        {
+            <tr>
+                <td>@exit.Department</td>
+                <td>@exit.Month</td>
+                <td>@exit.Year</td>
+                <td>@exit.ExitCount</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 初始化DataTables
+        $('#exitTable').DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese.json'
+            }
+        });
+    });
+</script>

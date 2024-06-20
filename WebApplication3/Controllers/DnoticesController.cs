@@ -64,9 +64,17 @@ namespace WebApplication3.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(dnotice);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(dnotice);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException ex)
+                {
+                    // 记录日志或返回用户友好的错误消息
+                    ModelState.AddModelError("", "Unable to save changes. " + ex.Message);
+                }
             }
             ViewData["Npost"] = new SelectList(_context.Posts, "Pid", "Pid", dnotice.Npost);
             ViewData["Nposto"] = new SelectList(_context.Posts, "Pid", "Pid", dnotice.Nposto);
@@ -120,8 +128,14 @@ namespace WebApplication3.Controllers
                     }
                     else
                     {
-                        throw;
+                        // 记录日志或返回用户友好的错误消息
+                        ModelState.AddModelError("", "Unable to save changes. Another user has updated this record.");
                     }
+                }
+                catch (DbUpdateException ex)
+                {
+                    // 记录日志或返回用户友好的错误消息
+                    ModelState.AddModelError("", "Unable to save changes. " + ex.Message);
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -171,5 +185,7 @@ namespace WebApplication3.Controllers
         {
             return _context.Dnotices.Any(e => e.Nuid == id);
         }
+        // GET: Dnotices/GetNpostForUser/{uid}
+       
     }
 }

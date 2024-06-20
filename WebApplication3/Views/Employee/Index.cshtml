@@ -1,0 +1,59 @@
+﻿@model WebApplication3.Models.User
+@{
+    ViewData["Title"] = "员工信息查询";
+    Layout = "_ELayout";
+}
+<link rel="stylesheet" href="~/css/Depts.css">
+<div class="container">
+    <h2 class="mt-4">员工信息查询</h2>
+
+    <form asp-action="Index" method="get" class="search-form">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="idCard">身份证号:</label>
+                <input type="text" name="idCard" id="idCard" class="form-control" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="name">姓名:</label>
+                <input type="text" name="name" id="name" class="form-control" />
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">查询</button>
+    </form>
+
+    @if (Model != null)
+    {
+        <h3 class="mt-4">员工信息</h3>
+        <form asp-action="Update" method="post">
+            <input type="hidden" asp-for="Uid" />
+            <div class="form-group">
+                <label for="Uname">姓名:</label>
+                <input type="text" asp-for="Uname" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="Umail">电子邮件:</label>
+                <input type="text" asp-for="Umail" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="Uadress">地址:</label>
+                <input type="text" asp-for="Uadress" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="Utel">电话:</label>
+                <input type="text" asp-for="Utel" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="Usex">性别:</label>
+                <input type="text" asp-for="Usex" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="Ustatus">状态:</label>
+                <select asp-for="Ustatus" class="form-control">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">保存</button>
+        </form>
+    }
+</div>

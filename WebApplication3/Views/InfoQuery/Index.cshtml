@@ -1,0 +1,63 @@
+﻿@model List<WebApplication3.Models.User>
+@{
+    ViewData["Title"] = "员工信息查询";
+}
+
+<link rel="stylesheet" href="~/css/Depts.css">
+
+
+<div class="container">
+    <h2 class="mt-4">员工信息查询</h2>
+
+    <form asp-action="Search" method="get" class="search-form">
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="idCard">身份证号:</label>
+                <input type="text" name="idCard" id="idCard" class="form-control" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="name">姓名:</label>
+                <input type="text" name="name" id="name" class="form-control" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="email">电子邮件:</label>
+                <input type="text" name="email" id="email" class="form-control" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="department">所属部门:</label>
+                <input type="text" name="department" id="department" class="form-control" />
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">搜索</button>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>姓名</th>
+                <th>部门</th>
+                <th>职位</th>
+                <th>身份证号</th>
+                <th>电子邮件</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Uid</td>
+                    <td>@user.Uname</td>
+                    <td>@user.DidNavigation?.Dname</td>
+                    <td>@user.PidNavigation?.Pname</td>
+                    <td>@user.Usfzh</td>
+                    <td>@user.Umail</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

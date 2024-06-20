@@ -4,38 +4,51 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Depts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">编辑</h1>
 
-<h4>Mpay</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Mid" />
-            <div class="form-group">
-                <label asp-for="Mlevel" class="control-label"></label>
-                <input asp-for="Mlevel" class="form-control" />
-                <span asp-validation-for="Mlevel" class="text-danger"></span>
+        <h4>薪资</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Edit" class="form-container">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Mid" />
+                    <div class="form-group">
+                        <label asp-for="Mlevel" class="control-label">级别</label>
+                        <input asp-for="Mlevel" class="form-control" />
+                        <span asp-validation-for="Mlevel" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Mpay1" class="control-label">薪资</label>
+                        <input asp-for="Mpay1" class="form-control" />
+                        <span asp-validation-for="Mpay1" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Pid" class="control-label">职位ID</label>
+                        <select asp-for="Pid" class="form-control" asp-items="ViewBag.Pid"></select>
+                        <span asp-validation-for="Pid" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="保存" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Mpay1" class="control-label"></label>
-                <input asp-for="Mpay1" class="form-control" />
-                <span asp-validation-for="Mpay1" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pid" class="control-label"></label>
-                <select asp-for="Pid" class="form-control" asp-items="ViewBag.Pid"></select>
-                <span asp-validation-for="Pid" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+
+        <div class="back-to-list">
+            <a asp-action="Index">返回列表</a>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+</body>
+</html>
