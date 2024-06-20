@@ -4,36 +4,49 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Depts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">创建</h1>
 
-<h4>Post</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Pid" class="control-label"></label>
-                <input asp-for="Pid" class="form-control" />
-                <span asp-validation-for="Pid" class="text-danger"></span>
+        <h4>职位</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create" class="form-container">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Pid" class="control-label">职位ID</label>
+                        <input asp-for="Pid" class="form-control" />
+                        <span asp-validation-for="Pid" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Pname" class="control-label">职位名称</label>
+                        <input asp-for="Pname" class="form-control" />
+                        <span asp-validation-for="Pname" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Did" class="control-label">部门ID</label>
+                        <select asp-for="Did" class="form-control" asp-items="ViewBag.Did"></select>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="创建" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Pname" class="control-label"></label>
-                <input asp-for="Pname" class="form-control" />
-                <span asp-validation-for="Pname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Did" class="control-label"></label>
-                <select asp-for="Did" class ="form-control" asp-items="ViewBag.Did"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+
+        <div class="back-to-list">
+            <a asp-action="Index">返回列表</a>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+</body>
+</html>

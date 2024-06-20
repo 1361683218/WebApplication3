@@ -11,28 +11,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/css/Depts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <p>
-        <a asp-action="Create" class="btn btn-primary">新建</a>
+        <a asp-action="Create" class="btn btn-primary"><i class="fas fa-plus"></i> 创建新项</a>
     </p>
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    添加时间
+                    调岗时间
                 </th>
                 <th>
-                    内容时间
+                    到岗时间
                 </th>
                 <th>
-                    发布调岗
+                    原本岗位编号
                 </th>
                 <th>
-                    发布导航
+                    去向岗位编号
                 </th>
                 <th>
-                    员工名
+                    员工编号
                 </th>
                 <th></th>
             </tr>
@@ -57,9 +58,9 @@
                         @Html.DisplayFor(modelItem => item.Nu.Uid)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Nuid" class="btn btn-sm btn-outline-secondary">编辑</a> |
-                        <a asp-action="Details" asp-route-id="@item.Nuid" class="btn btn-sm btn-outline-info">详情</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Nuid" class="btn btn-sm btn-outline-danger">删除</a>
+                        <a asp-action="Edit" asp-route-id="@item.Nuid" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a> 
+                        <a asp-action="Details" asp-route-id="@item.Nuid" class="btn btn-sm btn-info"><i class="fas fa-info-circle"></i></a> 
+                        <a asp-action="Delete" asp-route-id="@item.Nuid" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></a>
                     </td>
                 </tr>
             }

@@ -4,33 +4,45 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Mpay</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Mlevel)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Mlevel)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Mpay1)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Mpay1)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PidNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PidNavigation.Pid)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Mid">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Depts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">        
+        <div class="details-container">
+            <h4>薪资</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    级别
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Mlevel)
+                </dd>
+                <dt class="col-sm-2">
+                    薪资
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Mpay1)
+                </dd>
+                <dt class="col-sm-2">
+                    职位导航
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PidNavigation.Pid)
+                </dd>
+            </dl>
+        </div>
+        <div class="back-to-list">
+            <a asp-action="Edit" asp-route-id="@Model?.Mid">编辑</a> |
+            <a asp-action="Index">返回列表</a>
+        </div>
+    </div>
+</body>
+</html>

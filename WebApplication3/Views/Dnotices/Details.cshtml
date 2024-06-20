@@ -3,46 +3,57 @@
 @{
     ViewData["Title"] = "Details";
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Depts.css">
+    
+</head>
+<body>
+    <h1>详情</h1>
 
-<h1>Details</h1>
-
-<div>
-    <h4>Dnotice</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Naddtime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Naddtime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ncontime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ncontime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NpostNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NpostNavigation.Pid)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NpostoNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NpostoNavigation.Pid)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nu)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nu.Uid)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Nuid">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="details-container">
+        <h4>Dnotice</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                调岗时间
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Naddtime)
+            </dd>
+            <dt class="col-sm-2">
+                到岗时间
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Ncontime)
+            </dd>
+            <dt class="col-sm-2">
+                原本岗位编号
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.NpostNavigation.Pid)
+            </dd>
+            <dt class="col-sm-2">
+                去向岗位编号
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.NpostoNavigation.Pid)
+            </dd>
+            <dt class="col-sm-2">
+                员工编号
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Nu.Uid)
+            </dd>
+        </dl>
+    </div>
+    <div class="back-to-list"> 
+        <a asp-action="Edit" asp-route-id="@Model?.Nuid">编辑</a> |
+        <a asp-action="Index" >返回列表</a>
+    </div>
+</body>
+</html>

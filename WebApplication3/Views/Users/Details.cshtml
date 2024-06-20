@@ -1,85 +1,100 @@
 ﻿@model WebApplication3.Models.User
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "详情";
     Layout = "_Layout";
 }
 
-<h1>Details</h1>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Depts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">详情</h1>
 
-<div>
-    <h4>User</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Uname)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Uname)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Usex)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Usex)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Urzsj)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Urzsj)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Utel)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Utel)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ustatus)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ustatus)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Uadress)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Uadress)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Usfzh)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Usfzh)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Umail)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Umail)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DidNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DidNavigation.Did)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MidNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MidNavigation.Mid)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PidNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PidNavigation.Pid)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Uid">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+        <div class="details-container">
+            <h4>用户</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    用户名
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Uname)
+                </dd>
+                <dt class="col-sm-2">
+                    性别
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Usex)
+                </dd>
+                <dt class="col-sm-2">
+                    入职时间
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Urzsj)
+                </dd>
+                <dt class="col-sm-2">
+                    电话
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Utel)
+                </dd>
+                <dt class="col-sm-2">
+                    状态
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Ustatus)
+                </dd>
+                <dt class="col-sm-2">
+                    地址
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Uadress)
+                </dd>
+                <dt class="col-sm-2">
+                    身份证号
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Usfzh)
+                </dd>
+                <dt class="col-sm-2">
+                    邮箱
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Umail)
+                </dd>
+                <dt class="col-sm-2">
+                    部门导航
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.DidNavigation.Did)
+                </dd>
+                <dt class="col-sm-2">
+                    薪资导航
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.MidNavigation.Mid)
+                </dd>
+                <dt class="col-sm-2">
+                    职位导航
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PidNavigation.Pid)
+                </dd>
+            </dl>
+        </div>
+
+        <div class="back-to-list">
+            <a asp-action="Edit" asp-route-id="@Model?.Uid">编辑</a> |
+            <a asp-action="Index" class="btn btn-secondary">返回列表</a>
+        </div>
+    </div>
+</body>
+</html>
