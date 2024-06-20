@@ -1,0 +1,44 @@
+﻿@model WebApplication3.Models.Mpay
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Mpay</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Mid" class="control-label"></label>
+                <input asp-for="Mid" class="form-control" />
+                <span asp-validation-for="Mid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mlevel" class="control-label"></label>
+                <input asp-for="Mlevel" class="form-control" />
+                <span asp-validation-for="Mlevel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mpay1" class="control-label"></label>
+                <input asp-for="Mpay1" class="form-control" />
+                <span asp-validation-for="Mpay1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pid" class="control-label"></label>
+                <select asp-for="Pid" class ="form-control" asp-items="ViewBag.Pid"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

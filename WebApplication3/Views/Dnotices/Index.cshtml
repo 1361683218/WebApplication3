@@ -1,0 +1,69 @@
+﻿@model IEnumerable<WebApplication3.Models.Dnotice>
+
+@{
+    ViewData["Title"] = "索引";
+}
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Depts.css">
+</head>
+<body>
+    <p>
+        <a asp-action="Create" class="btn btn-primary">新建</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    添加时间
+                </th>
+                <th>
+                    内容时间
+                </th>
+                <th>
+                    发布调岗
+                </th>
+                <th>
+                    发布导航
+                </th>
+                <th>
+                    员工名
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Naddtime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ncontime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NpostNavigation.Pid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NpostoNavigation.Pid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nu.Uid)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Nuid" class="btn btn-sm btn-outline-secondary">编辑</a> |
+                        <a asp-action="Details" asp-route-id="@item.Nuid" class="btn btn-sm btn-outline-info">详情</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Nuid" class="btn btn-sm btn-outline-danger">删除</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,55 @@
+﻿@model WebApplication3.Models.Dnotice
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Depts.css">
+</head>
+<body>
+<h4>Dnotice</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nuid" class="control-label"></label>
+                <select asp-for="Nuid" class ="form-control" asp-items="ViewBag.Nuid"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Npost" class="control-label"></label>
+                <select asp-for="Npost" class ="form-control" asp-items="ViewBag.Npost"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nposto" class="control-label"></label>
+                <select asp-for="Nposto" class ="form-control" asp-items="ViewBag.Nposto"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Naddtime" class="control-label"></label>
+                <input asp-for="Naddtime" class="form-control" />
+                <span asp-validation-for="Naddtime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ncontime" class="control-label"></label>
+                <input asp-for="Ncontime" class="form-control" />
+                <span asp-validation-for="Ncontime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+</body>
+</html>

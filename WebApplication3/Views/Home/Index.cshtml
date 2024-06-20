@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "欢迎访问——员工管理系统";
+    Layout = null;
+}
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa; /* 可选的背景颜色 */
+    }
+
+    .login-container {
+        width: 100%; /* 全宽以适应各种屏幕 */
+        max-width: 450px; /* 控制最大宽度，保持适中的尺寸 */
+        padding: 20px; /* 外边距，根据需要调整 */
+    }
+    /* 登录框内部样式，增加内边距和背景 */
+    .login-box {
+        background-color: #ffffff; /* 白色背景 */
+        padding: 20px; /* 内边距 */
+        border-radius: 5px; /* 圆角效果 */
+        box-shadow: 0 0 10px rgba(0,0,0,0.1); /* 温和的阴影效果 */
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    /* 自定义下拉选择样式，可选，根据设计需求调整 */
+    /* 增加下拉菜单的尺寸 */
+    .custom-select {
+        font-size: 1.2rem; /* 增大字体大小 */
+        height: 3.5rem; /* 直接设置下拉菜单的高度 */
+        padding: 0.5rem; /* 根据需要调整内边距以适应新的高度 */
+    }
+    select, button {
+        width: 100%;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+</style>
+<div class="login-container">
+    <div class="login-box">
+        <h2 class="text-center">@ViewData["Title"]</h2>
+        <form id="roleSelectionForm" asp-controller="Users" asp-action="Index" method="post">
+            <div class="form-group">
+                <label for="roleSelect">请选择用户身份:</label>
+                <select class="form-control custom-select" id="roleSelect" name="role">
+                    <option value="/Employee/Index">员工</option>
+                    <option value="/Users/Index">管理员</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">进入系统</button>
+        </form>
+    </div>
+</div>

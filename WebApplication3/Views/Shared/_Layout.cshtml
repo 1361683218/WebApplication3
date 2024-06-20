@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>员工管理系统</title>
+    <link rel="stylesheet" href="~/css/styles.css">
+</head>
+<body>
+    <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+    <div class="header">
+        <h1>员工管理系统</h1>
+    </div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-content" id="sidebar-content">
+            <a href="/Depts/Index">部门管理</a>
+            <a href="/Posts/Index">岗位管理</a>
+            <a href="/Mpays/Index">薪酬标准</a>
+            <a href="/Users/Index">员工管理</a>
+            <a href="/Dnotices/Index">调岗管理</a>
+            <a href="#info-query">信息查询</a>
+            <a href="#statistics">统计分析</a>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="container">
+            @RenderBody()
+        </div>
+    </div>
+    <div class="footer">
+        <p>版权所有 &copy; 2024 员工管理系统</p>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        let isDragging = false;
+        let startY, startScrollTop;
+
+        const sidebarContent = document.getElementById('sidebar-content');
+
+        sidebarContent.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startY = e.pageY;
+            startScrollTop = sidebarContent.scrollTop;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const dy = e.pageY - startY;
+            sidebarContent.scrollTop = startScrollTop - dy;
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+    </script>
+</body>
+</html>

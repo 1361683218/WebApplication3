@@ -1,0 +1,94 @@
+﻿@model WebApplication3.Models.User
+
+@{
+    ViewData["Title"] = "创建";
+    Layout = "_Layout";
+}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Depts.css">
+</head>
+<body>
+    <div class="form-container">
+        <h1>创建</h1>
+
+        <h4>用户</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Uid" class="control-label">用户ID</label>
+                        <input asp-for="Uid" class="form-control" />
+                        <span asp-validation-for="Uid" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Uname" class="control-label">用户名</label>
+                        <input asp-for="Uname" class="form-control" />
+                        <span asp-validation-for="Uname" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Usex" class="control-label">性别</label>
+                        <input asp-for="Usex" class="form-control" />
+                        <span asp-validation-for="Usex" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Urzsj" class="control-label">入职时间</label>
+                        <input asp-for="Urzsj" class="form-control" />
+                        <span asp-validation-for="Urzsj" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Utel" class="control-label">电话</label>
+                        <input asp-for="Utel" class="form-control" />
+                        <span asp-validation-for="Utel" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Ustatus" class="control-label">状态</label>
+                        <input asp-for="Ustatus" class="form-control" />
+                        <span asp-validation-for="Ustatus" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Uadress" class="control-label">地址</label>
+                        <input asp-for="Uadress" class="form-control" />
+                        <span asp-validation-for="Uadress" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Pid" class="control-label">职位ID</label>
+                        <select asp-for="Pid" class="form-control" asp-items="ViewBag.Pid"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Did" class="control-label">部门ID</label>
+                        <select asp-for="Did" class="form-control" asp-items="ViewBag.Did"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Mid" class="control-label">经理ID</label>
+                        <select asp-for="Mid" class="form-control" asp-items="ViewBag.Mid"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Usfzh" class="control-label">身份证号</label>
+                        <input asp-for="Usfzh" class="form-control" />
+                        <span asp-validation-for="Usfzh" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Umail" class="control-label">邮箱</label>
+                        <input asp-for="Umail" class="form-control" />
+                        <span asp-validation-for="Umail" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="创建" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="back-to-list">
+            <a asp-action="Index">返回列表</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<WebApplication3.Models.Dept>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Depts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <p>
+        <a asp-action="Create" class="btn btn-primary">新建部门</a>
+        <form asp-action="Search" method="get" class="search-form">
+            <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search..." />
+            <button type="submit">搜索</button>
+        </form>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    部门ID
+                </th>
+                <th>
+                    部门名称
+                </th>
+                <th>
+                    部门电话
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td data-label="部门ID">
+                        @Html.DisplayFor(modelItem => item.Did)
+                    </td>
+                    <td data-label="部门名称">
+                        @Html.DisplayFor(modelItem => item.Dname)
+                    </td>
+                    <td data-label="部门电话">
+                        @Html.DisplayFor(modelItem => item.Dtel)
+                    </td>
+                    <td data-label="操作">
+                        <a asp-action="Edit" asp-route-id="@item.Did"><i class="fas fa-edit"></i></a> |
+                        <a asp-action="Details" asp-route-id="@item.Did"><i class="fas fa-info-circle"></i></a> |
+                        <a asp-action="Delete" asp-route-id="@item.Did"><i class="fas fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

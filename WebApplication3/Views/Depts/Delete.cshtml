@@ -1,0 +1,45 @@
+﻿@model WebApplication3.Models.Dept
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Depts.css">
+</head>
+<body>
+    <div class="delete-container">
+        <h3>你确定要删除这个部门吗？</h3>
+        <div>
+            <h4>部门信息</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    部门名称
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Dname)
+                </dd>
+                <dt class="col-sm-2">
+                    部门电话
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Dtel)
+                </dd>
+            </dl>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Did" />
+                <input type="submit" value="删除" class="btn btn-danger" /> |
+                <a asp-action="Index">返回列表</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

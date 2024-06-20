@@ -1,0 +1,85 @@
+﻿@model WebApplication3.Models.User
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "_Layout";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Uname)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Uname)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Usex)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Usex)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Urzsj)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Urzsj)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Utel)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Utel)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Ustatus)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Ustatus)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Uadress)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Uadress)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Usfzh)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Usfzh)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Umail)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Umail)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DidNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DidNavigation.Did)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MidNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MidNavigation.Mid)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PidNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PidNavigation.Pid)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Uid">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

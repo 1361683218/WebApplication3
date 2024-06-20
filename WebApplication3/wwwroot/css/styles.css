@@ -1,0 +1,217 @@
+﻿body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.header {
+    background-color: #2c3e50;
+    color: #fff;
+    padding: 15px 30px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    height: 60px;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    height: calc(100% - 90px); /* 减去顶部导航栏的高度 */
+    position: fixed;
+    top: 90px; /* 顶部导航栏的高度 */
+    left: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    overflow-y: hidden; /* 隐藏滚动条 */
+    transition: transform 0.3s;
+}
+
+.sidebar-content {
+    height: 100%;
+    overflow-y: auto; /* 允许内容滚动 */
+}
+
+.sidebar a {
+    display: block;
+    padding: 15px 30px;
+    color: #ecf0f1;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+    .sidebar a:hover {
+        background-color: #34495e;
+        color: #fff;
+    }
+
+.main-content {
+    margin-left: 250px;
+    padding: 30px;
+    background-color: #fff;
+    min-height: calc(100vh - 120px); /* 减去顶部和底部导航栏的高度 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: margin-left 0.3s;
+    margin-top: 60px; /* 为顶部导航栏留出空间 */
+    padding-bottom: 90px; /* 为底部导航栏留出空间 */
+}
+.footer {
+    background-color: #2c3e50;
+    color: #fff;
+    text-align: center;
+    padding: 15px 30px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    height: 30px; /* 设置底部导航栏的高度 */
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .footer {
+        position: relative;
+    }
+}
+
+/* 侧边栏按钮 */
+.sidebar-toggle {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background-color: #2c3e50;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 1000;
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .sidebar-toggle {
+        display: block;
+    }
+}
+/* 基本的搜索框样式 */
+.search-form {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+    .search-form input[type="text"] {
+        padding: 6px 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .search-form button {
+        padding: 6px 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f8f8f8;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+        .search-form button:hover {
+            background-color: #e8e8e8;
+        }
+.delete-container {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+    .delete-container h1 {
+        color: #d9534f;
+        margin-bottom: 10px;
+    }
+
+    .delete-container h3 {
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .delete-container h4 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .delete-container hr {
+        border: 0;
+        height: 1px;
+        background: #ccc;
+        margin: 20px 0;
+    }
+
+    .delete-container dl {
+        margin: 0;
+    }
+
+    .delete-container dt {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .delete-container dd {
+        margin-bottom: 15px;
+        color: #555;
+    }
+
+    .delete-container .btn-danger {
+        background-color: #d9534f;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+        .delete-container .btn-danger:hover {
+            background-color: #c9302c;
+        }
+
+    .delete-container .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+        .delete-container .btn-secondary:hover {
+            background-color: #5a6268;
+        }

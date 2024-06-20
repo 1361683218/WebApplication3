@@ -1,0 +1,41 @@
+﻿@model WebApplication3.Models.Dept
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "_Layout";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Depts.css">
+</head>
+<body>
+<h1>部门详情</h1>
+
+<div class="details-container">
+    <h4>部门信息</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            部门名称
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Dname)
+        </dd>
+        <dt class="col-sm-2">
+            部门电话
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Dtel)
+        </dd>
+    </dl>
+</div>
+<div class="back-to-list">
+    <a asp-action="Edit" asp-route-id="@Model?.Did">编辑</a> |
+    <a asp-action="Index">返回列表</a>
+</div>
+</body>
+</html>
