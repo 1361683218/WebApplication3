@@ -104,6 +104,14 @@ public class EmployeeController : Controller
         }
 
         user.Ustatus = "Active"; // 更新状态为Active
+
+        // 删除对应的调岗记录
+        var transferRecord = _context.Dnotices.FirstOrDefault(d => d.Nuid == user.Uid);
+        if (transferRecord != null)
+        {
+            _context.Dnotices.Remove(transferRecord);
+        }
+
         _context.SaveChanges();
         return RedirectToAction("TransferInfo", new { idCard = user.Usfzh, name = user.Uname });
     }

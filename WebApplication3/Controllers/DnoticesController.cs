@@ -50,16 +50,25 @@ namespace WebApplication3.Controllers
         }
 
         // GET: Dnotices/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? uid)
         {
-            ViewData["Npost"] = new SelectList(_context.Posts, "Pid", "Pid");
-            ViewData["Nposto"] = new SelectList(_context.Posts, "Pid", "Pid");
-            ViewData["Nuid"] = new SelectList(_context.Users, "Uid", "Uid");
+            if (uid.HasValue)
+            {
+                var user = await _context.Users.FindAsync(uid.Value);
+                if (user != null)
+                {
+                    ViewBag.Npost = new SelectList(_context.Posts, "Pid", "Pid", user.Pid);
+                    ViewBag.Nposto = new SelectList(_context.Posts, "Pid", "Pid");
+                    ViewBag.Nuid = new SelectList(_context.Users, "Uid", "Uid", uid.Value);
+                    return View(new Dnotice { Nuid = uid.Value, Npost = user.Pid.Value });
+                }
+            }
+            ViewBag.Npost = new SelectList(_context.Posts, "Pid", "Pid");
+            ViewBag.Nposto = new SelectList(_context.Posts, "Pid", "Pid");
+            ViewBag.Nuid = new SelectList(_context.Users, "Uid", "Uid");
             return View();
         }
 
-        // POST: Dnotices/Create
-        // POST: Dnotices/Create
         // POST: Dnotices/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -85,7 +94,10 @@ namespace WebApplication3.Controllers
                     if (user != null)
                     {
                         user.Ustatus = "Inactive";
+                        user.Pid = dnotice.Nposto; // 更新员工的岗位信息
+                        dnotice.Npost = user.Pid.Value; // 确保 Npost 的值是从用户信息中获取的
                     }
+
                     // 检查是否已经存在该用户的调岗记录，并且只处理最新的那一条
                     var existingRecords = await _context.Dnotices.Where(d => d.Nuid == dnotice.Nuid).ToListAsync();
                     if (existingRecords.Any())
@@ -93,6 +105,7 @@ namespace WebApplication3.Controllers
                         var latestRecord = existingRecords.OrderByDescending(d => d.Naddtime).First();
                         _context.Dnotices.Remove(latestRecord);
                     }
+
                     _context.Add(dnotice);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
@@ -108,6 +121,7 @@ namespace WebApplication3.Controllers
             ViewData["Nuid"] = new SelectList(_context.Users, "Uid", "Uid", dnotice.Nuid);
             return View(dnotice);
         }
+
         // GET: Dnotices/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -121,13 +135,17 @@ namespace WebApplication3.Controllers
             {
                 return NotFound();
             }
-            ViewData["Npost"] = new SelectList(_context.Posts, "Pid", "Pid", dnotice.Npost);
+
+            var user = await _context.Users.FindAsync(dnotice.Nuid);
+            if (user != null)
+            {
+                ViewData["Npost"] = new SelectList(_context.Posts, "Pid", "Pid", user.Pid);
+            }
             ViewData["Nposto"] = new SelectList(_context.Posts, "Pid", "Pid", dnotice.Nposto);
             ViewData["Nuid"] = new SelectList(_context.Users, "Uid", "Uid", dnotice.Nuid);
             return View(dnotice);
         }
 
-        // POST: Dnotices/Edit/5
         // POST: Dnotices/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -147,6 +165,7 @@ namespace WebApplication3.Controllers
                     if (user != null)
                     {
                         user.Ustatus = "Inactive";
+                        user.Pid = dnotice.Nposto; // 更新员工的岗位信息
                     }
 
                     // 检查是否已经存在该用户的调岗记录，并且只处理最新的那一条
@@ -224,6 +243,16 @@ namespace WebApplication3.Controllers
         private bool DnoticeExists(int id)
         {
             return _context.Dnotices.Any(e => e.Nuid == id);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetUserPost(int uid)
+        {
+            var user = await _context.Users.FindAsync(uid);
+            if (user != null)
+            {
+                return Json(new { postId = user.Pid });
+            }
+            return Json(new { postId = 0 });
         }
     }
 }

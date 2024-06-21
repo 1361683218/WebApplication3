@@ -10,6 +10,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/css/Depts.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#Nuid').change(function () {
+                var selectedUid = $(this).val();
+                if (selectedUid) {
+                    $.ajax({
+                        url: '/Dnotices/GetUserPost',
+                        type: 'GET',
+                        data: { uid: selectedUid },
+                        success: function (data) {
+                            $('#Npost').val(data.postId);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <h1>创建</h1>
@@ -26,7 +44,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Npost" class="control-label">原本岗位编号</label>
-                    <select asp-for="Npost" class="form-control" asp-items="ViewBag.Npost"></select>
+                    <input asp-for="Npost" class="form-control" readonly />
                 </div>
                 <div class="form-group">
                     <label asp-for="Nposto" class="control-label">去向岗位编号</label>
