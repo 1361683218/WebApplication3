@@ -22,13 +22,16 @@
             <thead>
                 <tr>
                     <th>
-                        级别
+                        等级
                     </th>
                     <th>
                         薪资
                     </th>
                     <th>
-                        职位导航
+                        岗位
+                    </th>
+                    <th>
+                        薪酬编号
                     </th>
                     <th></th>
                 </tr>
@@ -45,6 +48,9 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.PidNavigation.Pid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mid)
                         </td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Mid"><i class="fas fa-edit"></i></a> 

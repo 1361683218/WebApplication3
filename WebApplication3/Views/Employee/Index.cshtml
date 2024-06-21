@@ -10,10 +10,6 @@
     <form asp-action="Index" method="get" class="search-form">
         <div class="form-row">
             <div class="form-group col-md-4">
-                <label for="idCard">身份证号:</label>
-                <input type="text" name="idCard" id="idCard" class="form-control" />
-            </div>
-            <div class="form-group col-md-4">
                 <label for="name">姓名:</label>
                 <input type="text" name="name" id="name" class="form-control" />
             </div>
@@ -30,25 +26,38 @@
         <h3 class="mt-4">员工信息</h3>
         <form asp-action="Update" method="post">
             <input type="hidden" asp-for="Uid" />
+
+            <div class="form-group">
+                <label for="Did">部门ID:</label>
+                <input type="text" readonly asp-for="Did" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="Pid">岗位ID:</label>
+                <input type="text"  readonly asp-for="Pid" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="Usfzh">身份证号:</label>
+                <input type="text" readonly asp-for="Usfzh" class="form-control" />
+            </div>
+
             <div class="form-group">
                 <label for="Uname">姓名:</label>
                 <input type="text" asp-for="Uname" class="form-control" />
             </div>
+
             <div class="form-group">
                 <label for="Umail">电子邮件:</label>
                 <input type="text" asp-for="Umail" class="form-control" />
             </div>
             <div class="form-group">
-                <label for="Uadress">地址:</label>
+                <label for="Uadress">家庭地址:</label>
                 <input type="text" asp-for="Uadress" class="form-control" />
             </div>
             <div class="form-group">
-                <label for="Utel">电话:</label>
+                <label for="Utel">联系方式:</label>
                 <input type="text" asp-for="Utel" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label for="Usex">性别:</label>
-                <input type="text" asp-for="Usex" class="form-control" />
             </div>
             <button type="submit" class="btn btn-primary">保存</button>
         </form>
