@@ -9,13 +9,17 @@
 
     <form asp-action="Index" method="get" class="search-form">
         <div class="form-row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
                 <label for="idCard">身份证号:</label>
                 <input type="text" name="idCard" id="idCard" class="form-control" />
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
                 <label for="name">姓名:</label>
                 <input type="text" name="name" id="name" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label for="uid">UID:</label>
+                <input type="text" name="uid" id="uid" class="form-control" />
             </div>
         </div>
         <button type="submit" class="btn btn-primary">查询</button>
@@ -45,13 +49,6 @@
             <div class="form-group">
                 <label for="Usex">性别:</label>
                 <input type="text" asp-for="Usex" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label for="Ustatus">状态:</label>
-                <select asp-for="Ustatus" class="form-control">
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                </select>
             </div>
             <button type="submit" class="btn btn-primary">保存</button>
         </form>

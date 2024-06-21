@@ -15,9 +15,9 @@ public partial class Dnotice
 
     public string Ncontime { get; set; } = null!;
 
-    public virtual Post NpostNavigation { get; set; } = null!;
+    public virtual Post? NpostNavigation { get; set; }
 
-    public virtual Post NpostoNavigation { get; set; } = null!;
+    public virtual Post? NpostoNavigation { get; set; }
 
-    public virtual User Nu { get; set; } = null!;
+    public virtual User? Nu { get; set; }
 }

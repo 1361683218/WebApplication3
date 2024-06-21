@@ -6,16 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication3.Models;
+using Microsoft.Extensions.Logging;
 
 namespace WebApplication3.Controllers
 {
     public class DnoticesController : Controller
     {
         private readonly WebdesignContext _context;
+        private readonly ILogger<DnoticesController> _logger;
 
-        public DnoticesController(WebdesignContext context)
+        public DnoticesController(WebdesignContext context, ILogger<DnoticesController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: Dnotices
@@ -56,8 +59,8 @@ namespace WebApplication3.Controllers
         }
 
         // POST: Dnotices/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Dnotices/Create
+        // POST: Dnotices/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Nuid,Npost,Nposto,Naddtime,Ncontime")] Dnotice dnotice)
@@ -66,22 +69,45 @@ namespace WebApplication3.Controllers
             {
                 try
                 {
+                    // 检查 Nuid 是否已经存在
+                    var existingDnotice = await _context.Dnotices.FindAsync(dnotice.Nuid);
+                    if (existingDnotice != null)
+                    {
+                        ModelState.AddModelError("Nuid", "The Nuid already exists.");
+                        ViewData["Npost"] = new SelectList(_context.Posts, "Pid", "Pname", dnotice.Npost);
+                        ViewData["Nposto"] = new SelectList(_context.Posts, "Pid", "Pname", dnotice.Nposto);
+                        ViewData["Nuid"] = new SelectList(_context.Users, "Uid", "Uid", dnotice.Nuid);
+                        return View(dnotice);
+                    }
+
+                    // 获取用户并更新其状态为 Inactive
+                    var user = await _context.Users.FindAsync(dnotice.Nuid);
+                    if (user != null)
+                    {
+                        user.Ustatus = "Inactive";
+                    }
+                    // 检查是否已经存在该用户的调岗记录，并且只处理最新的那一条
+                    var existingRecords = await _context.Dnotices.Where(d => d.Nuid == dnotice.Nuid).ToListAsync();
+                    if (existingRecords.Any())
+                    {
+                        var latestRecord = existingRecords.OrderByDescending(d => d.Naddtime).First();
+                        _context.Dnotices.Remove(latestRecord);
+                    }
                     _context.Add(dnotice);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException ex)
                 {
-                    // 记录日志或返回用户友好的错误消息
-                    ModelState.AddModelError("", "Unable to save changes. " + ex.Message);
+                    _logger.LogError(ex, "Error saving new Dnotice record.");
+                    ModelState.AddModelError("", "Unable to save changes. Please try again.");
                 }
             }
-            ViewData["Npost"] = new SelectList(_context.Posts, "Pid", "Pid", dnotice.Npost);
-            ViewData["Nposto"] = new SelectList(_context.Posts, "Pid", "Pid", dnotice.Nposto);
+            ViewData["Npost"] = new SelectList(_context.Posts, "Pid", "Pname", dnotice.Npost);
+            ViewData["Nposto"] = new SelectList(_context.Posts, "Pid", "Pname", dnotice.Nposto);
             ViewData["Nuid"] = new SelectList(_context.Users, "Uid", "Uid", dnotice.Nuid);
             return View(dnotice);
         }
-
         // GET: Dnotices/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -102,8 +128,7 @@ namespace WebApplication3.Controllers
         }
 
         // POST: Dnotices/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Dnotices/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Nuid,Npost,Nposto,Naddtime,Ncontime")] Dnotice dnotice)
@@ -117,6 +142,21 @@ namespace WebApplication3.Controllers
             {
                 try
                 {
+                    // 获取用户并更新其状态为 Inactive
+                    var user = await _context.Users.FindAsync(dnotice.Nuid);
+                    if (user != null)
+                    {
+                        user.Ustatus = "Inactive";
+                    }
+
+                    // 检查是否已经存在该用户的调岗记录，并且只处理最新的那一条
+                    var existingRecords = await _context.Dnotices.Where(d => d.Nuid == dnotice.Nuid).ToListAsync();
+                    if (existingRecords.Any())
+                    {
+                        var latestRecord = existingRecords.OrderByDescending(d => d.Naddtime).First();
+                        _context.Dnotices.Remove(latestRecord);
+                    }
+
                     _context.Update(dnotice);
                     await _context.SaveChangesAsync();
                 }
@@ -128,19 +168,19 @@ namespace WebApplication3.Controllers
                     }
                     else
                     {
-                        // 记录日志或返回用户友好的错误消息
+                        _logger.LogError("Concurrency error updating Dnotice record.");
                         ModelState.AddModelError("", "Unable to save changes. Another user has updated this record.");
                     }
                 }
                 catch (DbUpdateException ex)
                 {
-                    // 记录日志或返回用户友好的错误消息
-                    ModelState.AddModelError("", "Unable to save changes. " + ex.Message);
+                    _logger.LogError(ex, "Error updating Dnotice record.");
+                    ModelState.AddModelError("", "Unable to save changes. Please try again.");
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Npost"] = new SelectList(_context.Posts, "Pid", "Pid", dnotice.Npost);
-            ViewData["Nposto"] = new SelectList(_context.Posts, "Pid", "Pid", dnotice.Nposto);
+            ViewData["Npost"] = new SelectList(_context.Posts, "Pid", "Pname", dnotice.Npost);
+            ViewData["Nposto"] = new SelectList(_context.Posts, "Pid", "Pname", dnotice.Nposto);
             ViewData["Nuid"] = new SelectList(_context.Users, "Uid", "Uid", dnotice.Nuid);
             return View(dnotice);
         }
@@ -185,7 +225,5 @@ namespace WebApplication3.Controllers
         {
             return _context.Dnotices.Any(e => e.Nuid == id);
         }
-        // GET: Dnotices/GetNpostForUser/{uid}
-       
     }
 }

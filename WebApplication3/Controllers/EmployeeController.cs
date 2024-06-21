@@ -13,7 +13,7 @@ public class EmployeeController : Controller
     }
 
     // 员工信息查询
-    public IActionResult Index(string idCard, string name)
+    public IActionResult Index(string idCard, string name, int? uid)
     {
         var query = _context.Users.Include(u => u.DidNavigation).Include(u => u.PidNavigation).AsQueryable();
 
@@ -25,6 +25,11 @@ public class EmployeeController : Controller
         if (!string.IsNullOrEmpty(name))
         {
             query = query.Where(e => e.Uname == name);
+        }
+
+        if (uid.HasValue)
+        {
+            query = query.Where(e => e.Uid == uid.Value);
         }
 
         var result = query.FirstOrDefault();
@@ -54,7 +59,7 @@ public class EmployeeController : Controller
     }
 
     // 调岗信息查询
-    public IActionResult TransferInfo(string idCard, string name)
+    public IActionResult TransferInfo(string idCard, string name, int? uid)
     {
         var query = _context.Users.Include(u => u.DidNavigation).Include(u => u.PidNavigation).AsQueryable();
 
@@ -68,8 +73,24 @@ public class EmployeeController : Controller
             query = query.Where(e => e.Uname == name);
         }
 
-        var result = query.FirstOrDefault();
-        return View(result);
+        if (uid.HasValue)
+        {
+            query = query.Where(e => e.Uid == uid.Value);
+        }
+
+        var user = query.FirstOrDefault();
+        if (user != null)
+        {
+            // 检查是否有调岗记录
+            var transferRecord = _context.Dnotices.FirstOrDefault(d => d.Nuid == user.Uid);
+            ViewBag.HasTransferRecord = transferRecord != null;
+        }
+        else
+        {
+            ViewBag.HasTransferRecord = false;
+        }
+
+        return View(user);
     }
 
     // 调岗确认
@@ -82,7 +103,7 @@ public class EmployeeController : Controller
             return NotFound();
         }
 
-        user.Ustatus = "就职";
+        user.Ustatus = "Active"; // 更新状态为Active
         _context.SaveChanges();
         return RedirectToAction("TransferInfo", new { idCard = user.Usfzh, name = user.Uname });
     }

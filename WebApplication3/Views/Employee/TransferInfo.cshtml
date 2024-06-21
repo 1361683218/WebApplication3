@@ -1,7 +1,7 @@
 ﻿@model WebApplication3.Models.User
 @{
     ViewData["Title"] = "调岗信息查询";
-    Layout ="_ELayout";
+    Layout = "_ELayout";
 }
 <link rel="stylesheet" href="~/css/Depts.css">
 <div class="container">
@@ -9,13 +9,17 @@
 
     <form asp-action="TransferInfo" method="get" class="search-form">
         <div class="form-row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
                 <label for="idCard">身份证号:</label>
                 <input type="text" name="idCard" id="idCard" class="form-control" />
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
                 <label for="name">姓名:</label>
                 <input type="text" name="name" id="name" class="form-control" />
+            </div>
+            <div class="form-group col-md-4">
+                <label for="uid">UID:</label>
+                <input type="text" name="uid" id="uid" class="form-control" />
             </div>
         </div>
         <button type="submit" class="btn btn-primary">查询</button>
@@ -23,18 +27,20 @@
 
     @if (Model != null)
     {
-        <h3 class="mt-4">调岗信息</h3>
-        <p>姓名: @Model.Uname</p>
-        <p>部门: @Model.DidNavigation?.Dname</p>
-        <p>职位: @Model.PidNavigation?.Pname</p>
-        <p>状态: @Model.Ustatus</p>
+        <p>员工姓名: @Model.Uname</p>
+        <p>员工身份证号: @Model.Usfzh</p>
+        <p>员工状态: @Model.Ustatus</p>
 
-        @if (Model.Ustatus == "离职")
+        @if (ViewBag.HasTransferRecord)
         {
             <form asp-action="ConfirmTransfer" method="post">
                 <input type="hidden" name="uid" value="@Model.Uid" />
-                <button type="submit" class="btn btn-primary">确认到岗</button>
+                <button type="submit" class="btn btn-primary">调岗确认</button>
             </form>
         }
+    }
+    else
+    {
+        <p>未找到相关员工信息。</p>
     }
 </div>
