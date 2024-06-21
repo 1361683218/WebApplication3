@@ -12,49 +12,34 @@
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/css/Depts.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
 </head>
 <body>
     <div class="container">
         <p>
             <a asp-action="Create" class="btn btn-primary">创建新项</a>
         </p>
-        <table class="table">
+        <table id="mpayTable" class="table">
             <thead>
                 <tr>
-                    <th>
-                        等级
-                    </th>
-                    <th>
-                        薪资
-                    </th>
-                    <th>
-                        岗位
-                    </th>
-                    <th>
-                        薪酬编号
-                    </th>
-                    <th></th>
+                    <th>等级</th>
+                    <th>薪资</th>
+                    <th>岗位</th>
+                    <th>薪酬编号</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Mlevel)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Mpay1)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PidNavigation.Pid)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Mid)</td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Mlevel)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Mpay1)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.PidNavigation.Pid)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Mid)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Mid"><i class="fas fa-edit"></i></a> 
-                            <a asp-action="Details" asp-route-id="@item.Mid"><i class="fas fa-info-circle"></i></a> 
+                            <a asp-action="Edit" asp-route-id="@item.Mid"><i class="fas fa-edit"></i></a>
+                            <a asp-action="Details" asp-route-id="@item.Mid"><i class="fas fa-info-circle"></i></a>
                             <a asp-action="Delete" asp-route-id="@item.Mid"><i class="fas fa-trash-alt"></i></a>
                         </td>
                     </tr>
@@ -62,5 +47,18 @@
             </tbody>
         </table>
     </div>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 初始化DataTables
+            $('#mpayTable').DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese.json'
+                }
+            });
+        });
+    </script>
 </body>
 </html>

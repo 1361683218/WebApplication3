@@ -12,59 +12,52 @@
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/css/Depts.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
 </head>
 <body>
     <p>
         <a asp-action="Create" class="btn btn-primary"><i class="fas fa-plus"></i> 创建新项</a>
     </p>
-    <table class="table">
+    <table id="dnoticeTable" class="table">
         <thead>
             <tr>
-                <th>
-                    调岗时间
-                </th>
-                <th>
-                    到岗时间
-                </th>
-                <th>
-                    原本岗位编号
-                </th>
-                <th>
-                    去向岗位编号
-                </th>
-                <th>
-                    员工编号
-                </th>
-                <th></th>
+                <th>调岗时间</th>
+                <th>到岗时间</th>
+                <th>原本岗位编号</th>
+                <th>去向岗位编号</th>
+                <th>员工编号</th>
+                <th>操作</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
                 <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Naddtime)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Ncontime)</td>
+                    <td>@Html.DisplayFor(modelItem => item.NpostNavigation.Pid)</td>
+                    <td>@Html.DisplayFor(modelItem => item.NpostoNavigation.Pid)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Nu.Uid)</td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Naddtime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Ncontime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NpostNavigation.Pid)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NpostoNavigation.Pid)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nu.Uid)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Nuid" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a> 
-                        <a asp-action="Details" asp-route-id="@item.Nuid" class="btn btn-sm btn-info"><i class="fas fa-info-circle"></i></a> 
-                        <a asp-action="Delete" asp-route-id="@item.Nuid" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></a>
+                        <a asp-action="Edit" asp-route-id="@item.Nuid" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                        <a asp-action="Details" asp-route-id="@item.Nuid" class="btn btn-sm btn-info"><i class="fas fa-info-circle"></i></a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 初始化DataTables
+            $('#dnoticeTable').DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese.json'
+                }
+            });
+        });
+    </script>
 </body>
 </html>

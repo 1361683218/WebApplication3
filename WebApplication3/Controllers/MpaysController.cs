@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication3.Models;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebApplication3.Controllers
 {
@@ -52,8 +50,6 @@ namespace WebApplication3.Controllers
         }
 
         // POST: Mpays/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Mid,Mlevel,Mpay1,Pid")] Mpay mpay)
@@ -86,8 +82,6 @@ namespace WebApplication3.Controllers
         }
 
         // POST: Mpays/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Mid,Mlevel,Mpay1,Pid")] Mpay mpay)
@@ -101,6 +95,15 @@ namespace WebApplication3.Controllers
             {
                 try
                 {
+                    // Check if there are any employees associated with this Mpay
+                    var employeesExist = await _context.Users.AnyAsync(u => u.Pid == mpay.Pid);
+                    if (employeesExist)
+                    {
+                        // Return a view with a message indicating that employees exist and editing is not allowed
+                        ViewBag.ErrorMessage = "无法编辑该薪资，因为存在关联的员工。";
+                        return View(mpay);
+                    }
+
                     _context.Update(mpay);
                     await _context.SaveChangesAsync();
                 }
@@ -146,11 +149,21 @@ namespace WebApplication3.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var mpay = await _context.Mpays.FindAsync(id);
-            if (mpay != null)
+            if (mpay == null)
             {
-                _context.Mpays.Remove(mpay);
+                return NotFound();
             }
 
+            // Check if there are any employees associated with this Mpay
+            var employeesExist = await _context.Users.AnyAsync(u => u.Pid == mpay.Pid);
+            if (employeesExist)
+            {
+                // Return a view with a message indicating that employees exist and deletion is not allowed
+                ViewBag.ErrorMessage = "无法删除该薪资，因为存在关联的员工。";
+                return View("Delete", mpay);
+            }
+
+            _context.Mpays.Remove(mpay);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

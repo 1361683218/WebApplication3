@@ -44,6 +44,13 @@
         <div class="back-to-list">
             <a asp-action="Index">返回列表</a>
         </div>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.ErrorMessage
+            </div>
+        }
     </div>
 </body>
 </html>

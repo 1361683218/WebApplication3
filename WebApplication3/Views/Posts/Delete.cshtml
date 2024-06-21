@@ -39,8 +39,15 @@
             <form asp-action="Delete">
                 <input type="hidden" asp-for="Pid" />
                 <input type="submit" value="删除" class="btn btn-danger" /> |
-                <a asp-action="Index" >返回列表</a>
+                <a asp-action="Index">返回列表</a>
             </form>
+
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewBag.ErrorMessage
+                </div>
+            }
         </div>
     </div>
 </body>

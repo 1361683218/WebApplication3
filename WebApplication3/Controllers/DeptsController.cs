@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication3.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace WebApplication3.Controllers
 {
@@ -24,7 +21,7 @@ namespace WebApplication3.Controllers
             var depts = from d in _context.Depts
                         select d;
 
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
                 int searchId;
                 if (int.TryParse(searchString, out searchId))
@@ -35,13 +32,14 @@ namespace WebApplication3.Controllers
 
             return View(await depts.ToListAsync());
         }
+
         // GET: Depts/Search
         public async Task<IActionResult> Search(string searchString)
         {
             var depts = from d in _context.Depts
                         select d;
 
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
                 depts = depts.Where(d => d.Dname.Contains(searchString) || d.Dtel.Contains(searchString));
             }
@@ -74,8 +72,6 @@ namespace WebApplication3.Controllers
         }
 
         // POST: Depts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Did,Dname,Dtel")] Dept dept)
@@ -106,8 +102,6 @@ namespace WebApplication3.Controllers
         }
 
         // POST: Depts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Did,Dname,Dtel")] Dept dept)
@@ -121,6 +115,15 @@ namespace WebApplication3.Controllers
             {
                 try
                 {
+                    // Check if there are any employees associated with this department
+                    var employeesExist = await _context.Users.AnyAsync(u => u.Did == id);
+                    if (employeesExist)
+                    {
+                        // Return a view with a message indicating that employees exist and editing is not allowed
+                        ViewBag.ErrorMessage = "无法编辑该部门，因为存在关联的员工。";
+                        return View(dept);
+                    }
+
                     _context.Update(dept);
                     await _context.SaveChangesAsync();
                 }
@@ -164,11 +167,21 @@ namespace WebApplication3.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var dept = await _context.Depts.FindAsync(id);
-            if (dept != null)
+            if (dept == null)
             {
-                _context.Depts.Remove(dept);
+                return NotFound();
             }
 
+            // Check if there are any employees associated with this department
+            var employeesExist = await _context.Users.AnyAsync(u => u.Did == id);
+            if (employeesExist)
+            {
+                // Return a view with a message indicating that employees exist and deletion is not allowed
+                ViewBag.ErrorMessage = "无法删除该部门，因为存在关联的员工。";
+                return View("Delete", dept);
+            }
+
+            _context.Depts.Remove(dept);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
