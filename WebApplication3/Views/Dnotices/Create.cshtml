@@ -22,6 +22,12 @@
                         data: { uid: selectedUid },
                         success: function (data) {
                             $('#Npost').val(data.postId);
+                            // 移除原本岗位选项
+                            $('#Nposto option').each(function () {
+                                if ($(this).val() == data.postId) {
+                                    $(this).remove();
+                                }
+                            });
                         }
                     });
                 }

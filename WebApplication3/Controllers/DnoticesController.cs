@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication3.Models;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace WebApplication3.Controllers
 {
@@ -58,7 +59,7 @@ namespace WebApplication3.Controllers
                 if (user != null)
                 {
                     ViewBag.Npost = new SelectList(_context.Posts, "Pid", "Pid", user.Pid);
-                    ViewBag.Nposto = new SelectList(_context.Posts, "Pid", "Pid");
+                    ViewBag.Nposto = new SelectList(_context.Posts.Where(p => p.Pid != user.Pid), "Pid", "Pid");
                     ViewBag.Nuid = new SelectList(_context.Users, "Uid", "Uid", uid.Value);
                     return View(new Dnotice { Nuid = uid.Value, Npost = user.Pid.Value });
                 }
@@ -84,18 +85,18 @@ namespace WebApplication3.Controllers
                     {
                         ModelState.AddModelError("Nuid", "The Nuid already exists.");
                         ViewData["Npost"] = new SelectList(_context.Posts, "Pid", "Pname", dnotice.Npost);
-                        ViewData["Nposto"] = new SelectList(_context.Posts, "Pid", "Pname", dnotice.Nposto);
+                        ViewData["Nposto"] = new SelectList(_context.Posts.Where(p => p.Pid != dnotice.Npost), "Pid", "Pname", dnotice.Nposto);
                         ViewData["Nuid"] = new SelectList(_context.Users, "Uid", "Uid", dnotice.Nuid);
                         return View(dnotice);
                     }
 
-                    // 获取用户并更新其状态为 Inactive
+                    // 获取用户并记录原本岗位ID
                     var user = await _context.Users.FindAsync(dnotice.Nuid);
                     if (user != null)
                     {
-                        user.Ustatus = "Inactive";
+                        dnotice.Npost = user.Pid.Value; // 记录原本岗位ID
                         user.Pid = dnotice.Nposto; // 更新员工的岗位信息
-                        dnotice.Npost = user.Pid.Value; // 确保 Npost 的值是从用户信息中获取的
+                        user.Ustatus = "Inactive"; // 更新员工状态
                     }
 
                     // 检查是否已经存在该用户的调岗记录，并且只处理最新的那一条
@@ -117,7 +118,7 @@ namespace WebApplication3.Controllers
                 }
             }
             ViewData["Npost"] = new SelectList(_context.Posts, "Pid", "Pname", dnotice.Npost);
-            ViewData["Nposto"] = new SelectList(_context.Posts, "Pid", "Pname", dnotice.Nposto);
+            ViewData["Nposto"] = new SelectList(_context.Posts.Where(p => p.Pid != dnotice.Npost), "Pid", "Pname", dnotice.Nposto);
             ViewData["Nuid"] = new SelectList(_context.Users, "Uid", "Uid", dnotice.Nuid);
             return View(dnotice);
         }
@@ -141,7 +142,7 @@ namespace WebApplication3.Controllers
             {
                 ViewData["Npost"] = new SelectList(_context.Posts, "Pid", "Pid", user.Pid);
             }
-            ViewData["Nposto"] = new SelectList(_context.Posts, "Pid", "Pid", dnotice.Nposto);
+            ViewData["Nposto"] = new SelectList(_context.Posts.Where(p => p.Pid != dnotice.Npost), "Pid", "Pid", dnotice.Nposto);
             ViewData["Nuid"] = new SelectList(_context.Users, "Uid", "Uid", dnotice.Nuid);
             return View(dnotice);
         }
@@ -199,7 +200,7 @@ namespace WebApplication3.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Npost"] = new SelectList(_context.Posts, "Pid", "Pname", dnotice.Npost);
-            ViewData["Nposto"] = new SelectList(_context.Posts, "Pid", "Pname", dnotice.Nposto);
+            ViewData["Nposto"] = new SelectList(_context.Posts.Where(p => p.Pid != dnotice.Npost), "Pid", "Pname", dnotice.Nposto);
             ViewData["Nuid"] = new SelectList(_context.Users, "Uid", "Uid", dnotice.Nuid);
             return View(dnotice);
         }
@@ -244,6 +245,7 @@ namespace WebApplication3.Controllers
         {
             return _context.Dnotices.Any(e => e.Nuid == id);
         }
+
         [HttpGet]
         public async Task<IActionResult> GetUserPost(int uid)
         {
@@ -254,5 +256,16 @@ namespace WebApplication3.Controllers
             }
             return Json(new { postId = 0 });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAvailablePosts(int excludePostId)
+        {
+            var posts = await _context.Posts
+                .Where(p => p.Pid != excludePostId)
+                .Select(p => new { p.Pid, p.Pname })
+                .ToListAsync();
+            return Json(posts);
+        }
     }
+
 }
